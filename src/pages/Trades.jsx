@@ -58,12 +58,20 @@ export function Trades({ trades, sessionTrades, onResult, onAdd, onRemove, user,
   const wr = (wins + losses) > 0 ? Math.round((wins / (wins + losses)) * 100) : 0;
 
   // Filter templates for display (trades without a result)
+<<<<<<< HEAD
   const templates = trades.filter(t => !t.result);
   
   const currencies = templates.filter(t => t.category === "currency");
   const allIndices = templates.filter(t => t.category === "index");
   const derivIndices = templates.filter(t => t.subcategory === "deriv");
   const weltradeIndices = templates.filter(t => t.subcategory === "weltrade");
+=======
+  // Show all trades, not just open ones
+  const currencies = trades.filter(t => t.category === "currency");
+  const allIndices = trades.filter(t => t.category === "index");
+  const derivIndices = trades.filter(t => t.subcategory === "deriv");
+  const weltradeIndices = trades.filter(t => t.subcategory === "weltrade");
+>>>>>>> b675249 (Initial commit)
 
   // Capital growth calculations
   const balStart = dbBalance ? parseFloat(dbBalance.starting_balance) : 0;
@@ -100,6 +108,7 @@ export function Trades({ trades, sessionTrades, onResult, onAdd, onRemove, user,
     { id: "weltrade", label: `Weltrade (${weltradeIndices.length})`, icon: "🌐" },
   ];
 
+<<<<<<< HEAD
   const handleSeedDefaults = async () => {
     const defaults = [
       { p: 'EURUSD', c: 'currency', s: null },
@@ -124,6 +133,8 @@ export function Trades({ trades, sessionTrades, onResult, onAdd, onRemove, user,
     }
   };
 
+=======
+>>>>>>> b675249 (Initial commit)
   return (
     <div style={{ padding: "32px 24px", maxWidth: "1200px", margin: "0 auto", fontFamily: FD }} className="fade-up">
       {/* ── Header ── */}
@@ -137,6 +148,7 @@ export function Trades({ trades, sessionTrades, onResult, onAdd, onRemove, user,
         </div>
       </div>
 
+<<<<<<< HEAD
       {/* ── Empty State ── */}
       {trades.length === 0 && (
         <div style={{ ...gc(C.purple), padding: "60px 40px", textAlign: "center", marginBottom: "32px" }}>
@@ -156,6 +168,8 @@ export function Trades({ trades, sessionTrades, onResult, onAdd, onRemove, user,
         </div>
       )}
 
+=======
+>>>>>>> b675249 (Initial commit)
       {/* ── BALANCE CARD ─────────────────────────────────────────── */}
       <div style={{ ...gc(C.green), padding: "24px 28px", marginBottom: "24px", display: "flex", flexWrap: "wrap", gap: "24px", alignItems: "flex-start", position: "relative", overflow: "hidden" }}>
         {/* Subtle background glow */}
@@ -332,7 +346,19 @@ export function Trades({ trades, sessionTrades, onResult, onAdd, onRemove, user,
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(220px,1fr))", gap: "10px" }}>
             {currencies.map(trade => (
+<<<<<<< HEAD
               <TradeCard key={trade.id} trade={trade} onResult={onResult} pnlInputs={pnlInputs} setPnlInputs={setPnlInputs} setActiveModal={setActiveModal} />
+=======
+              <TradeCard
+                key={trade.id}
+                trade={trade}
+                onResult={onResult}
+                pnlInputs={pnlInputs}
+                setPnlInputs={setPnlInputs}
+                setActiveModal={setActiveModal}
+                disableResultButtons={!!trade.result}
+              />
+>>>>>>> b675249 (Initial commit)
             ))}
           </div>
         </div>

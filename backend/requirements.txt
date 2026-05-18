@@ -3,3 +3,5 @@ djangorestframework>=3.14
 django-cors-headers>=4.0
 mysqlclient>=2.2
 pymysql>=1.1
+gunicorn
+psycopg2-binary

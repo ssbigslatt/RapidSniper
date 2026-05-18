@@ -1,7 +1,11 @@
 import React from "react";
 import { C, FD, FM, gc, inputSt } from "../constants";
 
+<<<<<<< HEAD
 export function TradeCard({ trade, onResult, pnlInputs, setPnlInputs, setActiveModal }) {
+=======
+export function TradeCard({ trade, onResult, pnlInputs, setPnlInputs, setActiveModal, disableResultButtons }) {
+>>>>>>> b675249 (Initial commit)
   const normalizedResult = trade.result?.toLowerCase();
   const bc = normalizedResult === 'win' ? C.green : normalizedResult === 'loss' ? C.red : C.purple
   return (
@@ -51,6 +55,7 @@ export function TradeCard({ trade, onResult, pnlInputs, setPnlInputs, setActiveM
       <div style={{ flex: 1, minHeight: 0 }} />
 
       <div style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>
+<<<<<<< HEAD
         <button 
           onClick={() => setActiveModal({ id: trade.id, type: 'win' })}
           style={{ 
@@ -64,12 +69,29 @@ export function TradeCard({ trade, onResult, pnlInputs, setPnlInputs, setActiveM
             color: '#fff', 
             border: 'none', 
             cursor: 'pointer',
+=======
+        <button
+          onClick={() => setActiveModal({ id: trade.id, type: 'win' })}
+          style={{
+            flex: 1,
+            padding: '10px',
+            fontSize: '13px',
+            fontWeight: '800',
+            fontFamily: FD,
+            borderRadius: '10px',
+            background: C.green,
+            color: '#fff',
+            border: 'none',
+            cursor: disableResultButtons ? 'not-allowed' : 'pointer',
+            opacity: disableResultButtons ? 0.5 : 1,
+>>>>>>> b675249 (Initial commit)
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             gap: '4px'
           }}
           className="btn-hover"
+<<<<<<< HEAD
         >
           ✓ Win
         </button>
@@ -86,12 +108,36 @@ export function TradeCard({ trade, onResult, pnlInputs, setPnlInputs, setActiveM
             color: '#fff', 
             border: 'none', 
             cursor: 'pointer',
+=======
+          disabled={disableResultButtons}
+        >
+          ✓ Win
+        </button>
+        <button
+          onClick={() => setActiveModal({ id: trade.id, type: 'lose' })}
+          style={{
+            flex: 1,
+            padding: '10px',
+            fontSize: '13px',
+            fontWeight: '800',
+            fontFamily: FD,
+            borderRadius: '10px',
+            background: C.red,
+            color: '#fff',
+            border: 'none',
+            cursor: disableResultButtons ? 'not-allowed' : 'pointer',
+            opacity: disableResultButtons ? 0.5 : 1,
+>>>>>>> b675249 (Initial commit)
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             gap: '4px'
           }}
           className="btn-hover"
+<<<<<<< HEAD
+=======
+          disabled={disableResultButtons}
+>>>>>>> b675249 (Initial commit)
         >
           ✗ Lose
         </button>

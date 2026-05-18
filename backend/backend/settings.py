@@ -59,15 +59,15 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'rapidsniper_db',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'neondb',
+        'USER': 'neondb_owner',
+        'PASSWORD': 'npg_VnzLF6lgwe9K',
+        'HOST': 'ep-winter-meadow-aqywiwja.c-8.us-east-1.aws.neon.tech',
+        'PORT': '5432',
         'OPTIONS': {
-            'charset': 'utf8mb4',
-        },
+            'sslmode': 'require',
+        }
     }
 }
 
