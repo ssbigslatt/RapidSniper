@@ -450,14 +450,9 @@ export function DatabaseManager({ trades, onClearAll }) {
                                 onChange={(e) => handleNewRowChange(col, e.target.value)}
                                 style={{ 
                                   padding: "4px 8px", 
-                                  borderRadius: "4px", 
-                                  border: `1px solid ${C.green}`, 
-                                  background: C.gray5,
-                                  color: C.text,
-                                  fontFamily: FD,
-                                  fontSize: "12px",
                                   width: "100%",
-                                  maxWidth: "120px"
+                                  maxWidth: "120px",
+                                  color: C.purple
                                 }}
                               />
                             </td>
@@ -496,7 +491,7 @@ export function DatabaseManager({ trades, onClearAll }) {
                                     borderRadius: "4px", 
                                     border: `1px solid ${C.purple}`, 
                                     background: C.gray5,
-                                    color: C.text,
+                                    color: C.purple,
                                     fontFamily: FD,
                                     fontSize: "12px",
                                     width: "100%",
@@ -605,7 +600,7 @@ export function DatabaseManager({ trades, onClearAll }) {
                                   borderRadius: "4px", 
                                   border: `1px solid ${C.green}`, 
                                   background: C.gray5,
-                                  color: C.text,
+                                  color: C.purpleHi,
                                   fontFamily: FD,
                                   fontSize: "12px",
                                   width: "100%",
@@ -653,7 +648,7 @@ export function DatabaseManager({ trades, onClearAll }) {
                                     borderRadius: "4px", 
                                     border: `1px solid ${C.purple}`, 
                                     background: C.gray5,
-                                    color: C.text,
+                                    color: C.purpleHi,
                                     fontFamily: FD,
                                     fontSize: "12px",
                                     width: "100%",
@@ -807,7 +802,7 @@ export function DatabaseManager({ trades, onClearAll }) {
                           borderRadius: "8px",
                           border: `1px solid ${C.purple}40`,
                           background: C.gray5,
-                          color: C.text,
+                          color: C.purpleHi,
                           fontFamily: FD,
                           fontSize: "13px",
                           boxSizing: "border-box",
@@ -829,7 +824,7 @@ export function DatabaseManager({ trades, onClearAll }) {
                         borderRadius: "8px",
                         border: `1px solid ${C.purple}40`,
                         background: C.gray5,
-                        color: C.text,
+                        color: C.purpleHi,
                         fontFamily: FD,
                         fontSize: "13px",
                         boxSizing: "border-box",
