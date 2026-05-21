@@ -38,7 +38,6 @@ export function SubIndexSection({ title, icon, trades, color, catNum, onResult, 
             setActiveModal={setActiveModal}
           />
         ))}
-        ))}
       </div>
     </div>
   );

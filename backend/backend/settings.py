@@ -15,13 +15,13 @@ DEBUG = True
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'ssbigslatt.pythonanywhere.com']
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',
     'rest_framework',
     'api',
 ]

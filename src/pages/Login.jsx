@@ -1,3 +1,4 @@
+import { BASE_URL } from "../config";
 import React, { useState } from "react";
 import axios from "axios";
 import { C, FD, gc, inputSt } from "../constants";
@@ -19,7 +20,7 @@ export function Login({ onLogin, onGoSignup, onGoHome }) {
     setErr("");
     
     try {
-      const response = await axios.post("http://localhost:8000/api/login/", {
+      const response = await axios.post("https://ssbigslatt.pythonanywhere.com/api/login/", {
         username: u,
         password: p
       });
