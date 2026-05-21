@@ -17,9 +17,8 @@ import { History } from "./pages/History";
 import { DatabaseManager } from "./pages/DatabaseManager";
 import { TradingPlatforms } from "./pages/TradingPlatforms";
 import { Feedback } from "./pages/Feedback";
-
-const API_BASE = "http://localhost:8000/api/trades/";
-
+const BASE_URL = "https://ssbigslatt.pythonanywhere.com";
+const API_BASE = `${BASE_URL}/api/trades/`;
 export default function App() {
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem("rapid_sniper_user");
@@ -44,12 +43,11 @@ export default function App() {
   const fetchBalance = async () => {
     if (!user?.id) return;
     try {
-      const res = await axios.get(`http://localhost:8000/api/balances/?user=${user.id}`);
+      const res = await axios.get(`${BASE_URL}/api/balances/?user=${user.id}`);
       if (res.data.length > 0) {
         setBalance(res.data[0]);
       } else {
-        // Create balance if not exists
-        const createRes = await axios.post(`http://localhost:8000/api/balances/update_balance/`, {
+        const createRes = await axios.post(`${BASE_URL}/api/balances/update_balance/`, {
           user: user.id,
           starting_balance: 0
         });
@@ -157,10 +155,9 @@ export default function App() {
       throw err;
     }
   };
-
-  const handleFeedback = async (data) => {
+const handleFeedback = async (data) => {
     try {
-      await axios.post("http://localhost:8000/api/feedback/", {
+      await axios.post(`${BASE_URL}/api/feedback/`, {
         ...data,
         user: user?.id
       });
