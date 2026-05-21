@@ -62,7 +62,7 @@ export function Signup({ onSignedUp, onGoLogin, onGoHome }) {
 
     setLoading(true);
     try {
-     const res = await axios.post("https://ssbigslatt.pythonanywhere.com/api/signup/", {
+     const res = await axios.post(`${BASE_URL}/api/signup/`, {
         username: u,
         email: email,
         password: p,
