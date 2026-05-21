@@ -24,7 +24,7 @@ router.register(r'balances', BalanceViewSet)
 router.register(r'trade-notes', TradeNoteViewSet)
 router.register(r'feedback', FeedbackViewSet)
 
-from .views import TableListView, TableDataView, NormalizeTradesView, TruncateTableView, TableRowView, RecentUpdatesView
+from .views import TableListView, TableDataView, NormalizeTradesView, TruncateTableView, TableRowView, RecentUpdatesView, AuthUserTableView, AuthUserDetailView
 
 urlpatterns = [
     path('login/', login_view, name='login'),
@@ -33,6 +33,8 @@ urlpatterns = [
     path('change-password/', change_password_view, name='change-password'),
 
     path('tables/', TableListView.as_view(), name='table-list'),
+   path('tables/auth_user/', AuthUserTableView.as_view(), name='auth-user-list'),
+    path('tables/auth_user/<int:user_id>/', AuthUserDetailView.as_view(), name='auth-user-detail'),
     path('tables/<str:table_name>/', TableDataView.as_view(), name='table-data'),
     path('tables/<str:table_name>/truncate/', TruncateTableView.as_view(), name='truncate-table'),
     path('tables/<str:table_name>/<int:row_id>/', TableRowView.as_view(), name='table-row'),
@@ -40,3 +42,4 @@ urlpatterns = [
     path('normalize-trades/', NormalizeTradesView.as_view(), name='normalize-trades'),
     path('', include(router.urls)),
 ]
+

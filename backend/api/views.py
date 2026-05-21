@@ -318,12 +318,12 @@ class TableListView(APIView):
 
     def get_row_count(self, table_name):
         with connection.cursor() as cursor:
-            cursor.execute(f"SELECT COUNT(*) FROM `{table_name}`")
+            cursor.execute(f'SELECT COUNT(*) FROM "{table_name}"')
             return cursor.fetchone()[0]
 
     def get(self, request):
         with connection.cursor() as cursor:
-            cursor.execute("SHOW TABLES LIKE 'api_%'")
+            cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name LIKE 'api_%'")
             tables = [row[0] for row in cursor.fetchall()]
         
         row_counts = {}
@@ -353,7 +353,7 @@ class TableDataView(APIView):
     def get(self, request, table_name):
         limit = int(request.query_params.get('limit', 50))
         with connection.cursor() as cursor:
-            cursor.execute(f"SELECT * FROM `{table_name}` LIMIT %s", [limit])
+            cursor.execute(f'SELECT * FROM "{table_name}" LIMIT %s', [limit])
             columns = [desc[0] for desc in cursor.description]
             rows = [dict(zip(columns, row)) for row in cursor.fetchall()]
         
@@ -364,26 +364,34 @@ class TableDataView(APIView):
             'count': len(rows)
         })
 
+    def post(self, request, table_name):
+        data = request.data
+        columns = ', '.join([f'"{k}"' for k in data.keys()])
+        placeholders = ', '.join(['%s'] * len(data))
+        with connection.cursor() as cursor:
+            cursor.execute(
+                f'INSERT INTO "{table_name}" ({columns}) VALUES ({placeholders})',
+                list(data.values())
+            )
+        return Response({'message': 'Row added successfully'}, status=status.HTTP_201_CREATED)
 
 class TableRowView(APIView):
-    permission_classes = [AllowAny]  # Add IsAdminUser in production
+    permission_classes = [AllowAny]
 
     def patch(self, request, table_name, row_id):
         data = request.data
+        columns = ', '.join([f'"{k}" = %s' for k in data.keys()])
         with connection.cursor() as cursor:
-            columns = ', '.join([f'`{k}` = %s' for k in data.keys()])
-            cursor.execute(f"UPDATE `{table_name}` SET {columns} WHERE id = %s", list(data.values()) + [row_id])
-            cursor.execute(f"SELECT ROW_COUNT()")
-            rows_affected = cursor.fetchone()[0]
-        return Response({'message': f'Updated {rows_affected} row(s)', 'rows_affected': rows_affected})
+            cursor.execute(
+                f'UPDATE "{table_name}" SET {columns} WHERE id = %s',
+                list(data.values()) + [row_id]
+            )
+        return Response({'message': 'Row updated successfully'})
 
     def delete(self, request, table_name, row_id):
         with connection.cursor() as cursor:
-            cursor.execute(f"DELETE FROM `{table_name}` WHERE id = %s", [row_id])
-            cursor.execute(f"SELECT ROW_COUNT()")
-            rows_affected = cursor.fetchone()[0]
-        return Response({'message': f'Deleted {rows_affected} row(s)', 'rows_affected': rows_affected})
-
+            cursor.execute(f'DELETE FROM "{table_name}" WHERE id = %s', [row_id])
+        return Response({'message': 'Row deleted successfully'})
 
 class RecentUpdatesView(APIView):
     permission_classes = [AllowAny]
@@ -423,27 +431,18 @@ class RecentUpdatesView(APIView):
             'total_found': len(recent)
         })
 
-
 class NormalizeTradesView(APIView):
     permission_classes = [AllowAny]
 
-    @sync_to_async
-    def normalize(self):
-        # Normalize denormalized pair/category fields in api_trade
-        # This would populate instrument_id based on pair matching
-        normalized = 0
-        # Example logic - populate based on existing instruments
+    def post(self, request):
         from .models import Trade, Instrument
+        normalized = 0
         for trade in Trade.objects.filter(instrument__isnull=True, pair__isnull=False):
             instrument = Instrument.objects.filter(name__icontains=trade.pair).first()
             if instrument:
                 trade.instrument = instrument
                 trade.save()
                 normalized += 1
-        return normalized
-
-    def post(self, request):
-        normalized = self.normalize()
         return Response({
             'message': f'Normalized {normalized} trades with instrument FKs',
             'normalized_count': normalized
@@ -451,20 +450,166 @@ class NormalizeTradesView(APIView):
 
 
 class TruncateTableView(APIView):
-    permission_classes = [AllowAny]  # Add IsAdminUser in production
-
-    @sync_to_async
-    def truncate(self, table_name):
-        with connection.cursor() as cursor:
-            cursor.execute(f"TRUNCATE TABLE `{table_name}`")
-        return True
+    permission_classes = [AllowAny]
 
     def post(self, request, table_name):
         if not table_name.startswith('api_'):
             return Response({'error': 'Only api_ tables allowed'}, status=400)
-        
-        success = self.truncate(table_name)
+        with connection.cursor() as cursor:
+            cursor.execute(f'DELETE FROM "{table_name}"')
+        return Response({'message': f'Truncated table {table_name}', 'success': True})
+
+
+class AuthUserTableView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        limit = int(request.query_params.get('limit', 50))
+        users = User.objects.all()[:limit]
+        columns = ['id', 'username', 'email', 'is_superuser', 'is_staff', 'is_active', 'date_joined', 'last_login']
+        data = []
+        for u in users:
+            data.append({
+                'id': u.id,
+                'username': u.username,
+                'email': u.email,
+                'is_superuser': u.is_superuser,
+                'is_staff': u.is_staff,
+                'is_active': u.is_active,
+                'date_joined': str(u.date_joined),
+                'last_login': str(u.last_login),
+            })
+        return Response({'columns': columns, 'data': data, 'count': len(data)})
+
+    def post(self, request):
+        from .models import Trade, Instrument
+        normalized = 0
+        for trade in Trade.objects.filter(instrument__isnull=True, pair__isnull=False):
+            instrument = Instrument.objects.filter(name__icontains=trade.pair).first()
+            if instrument:
+                trade.instrument = instrument
+                trade.save()
+                normalized += 1
         return Response({
-            'message': f'Truncated table {table_name}',
-            'success': success
+            'message': f'Normalized {normalized} trades with instrument FKs',
+            'normalized_count': normalized
+        })
+
+
+class NormalizeTradesView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        from .models import Trade, Instrument
+        normalized = 0
+        for trade in Trade.objects.filter(instrument__isnull=True, pair__isnull=False):
+            instrument = Instrument.objects.filter(name__icontains=trade.pair).first()
+            if instrument:
+                trade.instrument = instrument
+                trade.save()
+                normalized += 1
+        return Response({
+            'message': f'Normalized {normalized} trades with instrument FKs',
+            'normalized_count': normalized
+        })
+
+
+class TruncateTableView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, table_name):
+        if not table_name.startswith('api_'):
+            return Response({'error': 'Only api_ tables allowed'}, status=400)
+        with connection.cursor() as cursor:
+            cursor.execute(f'DELETE FROM "{table_name}"')
+        return Response({'message': f'Truncated table {table_name}', 'success': True})
+
+
+class AuthUserTableView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        limit = int(request.query_params.get('limit', 50))
+        users = User.objects.all()[:limit]
+        columns = ['id', 'username', 'email', 'is_superuser', 'is_staff', 'is_active', 'date_joined', 'last_login']
+        data = []
+        for u in users:
+            data.append({
+                'id': u.id,
+                'username': u.username,
+                'email': u.email,
+                'is_superuser': u.is_superuser,
+                'is_staff': u.is_staff,
+                'is_active': u.is_active,
+                'date_joined': str(u.date_joined),
+                'last_login': str(u.last_login),
+            })
+        return Response({'columns': columns, 'data': data, 'count': len(data)})
+
+    def post(self, request):
+        username = request.data.get('username')
+        email = request.data.get('email', '')
+        password = request.data.get('password', 'ChangeMe123!')
+        user = User.objects.create_user(username=username, email=email, password=password)
+        return Response({'message': 'User created', 'id': user.id}, status=status.HTTP_201_CREATED)
+
+
+class AuthUserDetailView(APIView):
+    permission_classes = [AllowAny]
+
+    def patch(self, request, user_id):
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found'}, status=404)
+        for field in ['username', 'email', 'is_superuser', 'is_staff', 'is_active']:
+            if field in request.data:
+                setattr(user, field, request.data[field])
+        user.save()
+        return Response({'message': 'User updated'})
+
+    def delete(self, request, user_id):
+        try:
+            user = User.objects.get(id=user_id)
+            user.delete()
+            return Response({'message': 'User deleted'})
+        except User.DoesNotExist:
+            return Response({'error': 'User not found'}, status=404)
+
+
+class RecentUpdatesView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        hours = int(request.query_params.get('hours', 24))
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name LIKE 'api_%'")
+            tables = [row[0] for row in cursor.fetchall()]
+
+        recent = []
+        with connection.cursor() as cursor:
+            for table in tables:
+                cursor.execute(f"PRAGMA table_info(\"{table}\")")
+                columns = [row[1] for row in cursor.fetchall()]
+                if 'updated_at' in columns:
+                    cursor.execute(f"""
+                        SELECT id, updated_at 
+                        FROM "{table}" 
+                        WHERE updated_at > datetime('now', '-{hours} hours')
+                        ORDER BY updated_at DESC LIMIT 3
+                    """)
+                    rows = cursor.fetchall()
+                    for row in rows:
+                        recent.append({
+                            'table': table,
+                            'model_name': table.replace('api_', '').title().replace('_', ' '),
+                            'id': row[0],
+                            'updated_at': str(row[1])
+                        })
+
+        recent.sort(key=lambda x: x['updated_at'], reverse=True)
+        return Response({
+            'recent': recent[:8],
+            'hours': hours,
+            'total_found': len(recent)
         })

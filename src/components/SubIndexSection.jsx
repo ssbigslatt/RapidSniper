@@ -36,11 +36,8 @@ export function SubIndexSection({ title, icon, trades, color, catNum, onResult, 
             pnlInputs={pnlInputs}
             setPnlInputs={setPnlInputs}
             setActiveModal={setActiveModal}
-<<<<<<< HEAD
-=======
-            disableResultButtons={!!trade.result}
->>>>>>> b675249 (Initial commit)
           />
+        ))}
         ))}
       </div>
     </div>

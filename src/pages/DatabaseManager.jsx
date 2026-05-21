@@ -317,11 +317,7 @@ export function DatabaseManager({ trades, onClearAll }) {
   );
 
   return (
-<<<<<<< HEAD
-    <div style={{ padding: "40px 24px", maxWidth: "1000px", margin: "0 auto", fontFamily: FD }} className="fade-up">
-=======
-    <div style={{ padding: "60px 0", width: "100vw", minHeight: "100vh", maxWidth: "100vw", margin: 0, fontFamily: FD, position: "relative", left: "50%", right: "50%", transform: "translateX(-50%)" }} className="fade-up">
->>>>>>> b675249 (Initial commit)
+<div style={{ padding: "60px 0", width: "100vw", minHeight: "100vh", maxWidth: "100vw", margin: 0, fontFamily: FD, position: "relative", left: "50%", right: "50%", transform: "translateX(-50%)" }} className="fade-up">
       <div style={{ marginBottom: "32px" }}>
         <div style={{ display: "inline-block", padding: "3px 14px", borderRadius: "20px", background: "rgba(244,63,94,0.1)", border: "1px solid rgba(244,63,94,0.22)", color: C.red, fontSize: "11px", fontWeight: "700", letterSpacing: "1px", marginBottom: "11px" }}>SYSTEM</div>
         <h2 style={{ fontSize: "30px", fontWeight: "900", letterSpacing: "-0.5px" }}>Database <span style={{ background: C.grad1, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Management</span></h2>
@@ -329,22 +325,7 @@ export function DatabaseManager({ trades, onClearAll }) {
       </div>
 
       {/* Stats Tab */}
-      {activeTab === 'stats' && (
-<<<<<<< HEAD
-        <div style={{ ...gc(), padding: "32px", display: "flex", flexDirection: "column", gap: "24px" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "20px" }}>
-            <div style={{ padding: "24px", background: "rgba(139,92,246,0.05)", borderRadius: "16px", border: `1px solid ${C.purple}20` }}>
-              <div style={{ color: C.muted, fontSize: "12px", fontWeight: "700", marginBottom: "8px" }}>TOTAL TRADES</div>
-              <div style={{ color: C.text, fontSize: "28px", fontWeight: "900" }}>{totalTrades}</div>
-            </div>
-            <div style={{ padding: "24px", background: "rgba(16,185,129,0.05)", borderRadius: "16px", border: `1px solid ${C.green}20` }}>
-              <div style={{ color: C.muted, fontSize: "12px", fontWeight: "700", marginBottom: "8px" }}>COMPLETED</div>
-              <div style={{ color: C.greenHi, fontSize: "28px", fontWeight: "900" }}>{completedTrades}</div>
-            </div>
-            <div style={{ padding: "24px", background: "rgba(244,63,94,0.05)", borderRadius: "16px", border: `1px solid ${C.red}20` }}>
-              <div style={{ color: C.muted, fontSize: "12px", fontWeight: "700", marginBottom: "8px" }}>PENDING</div>
-              <div style={{ color: C.red, fontSize: "28px", fontWeight: "900" }}>{pendingTrades}</div>
-=======
+     {activeTab === 'stats' && (
         <div style={{ ...gc(), padding: "48px 0", display: "flex", flexDirection: "column", gap: "32px", width: "100%" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "40px", width: "90vw", margin: "0 auto" }}>
             <div style={{ padding: "40px", background: "rgba(139,92,246,0.07)", borderRadius: "22px", border: `2px solid ${C.purple}30` }}>
@@ -358,15 +339,14 @@ export function DatabaseManager({ trades, onClearAll }) {
             <div style={{ padding: "40px", background: "rgba(244,63,94,0.08)", borderRadius: "22px", border: `2px solid ${C.red}30` }}>
               <div style={{ color: C.muted, fontSize: "16px", fontWeight: "800", marginBottom: "16px", letterSpacing: "1px" }}>PENDING</div>
               <div style={{ color: C.red, fontSize: "44px", fontWeight: "900", letterSpacing: "-1px" }}>{pendingTrades}</div>
->>>>>>> b675249 (Initial commit)
             </div>
           </div>
 
-          <div style={{ display: "flex", gap: "12px", marginTop: "12px" }}>
-            <button onClick={handleExport} style={{ flex: 1, padding: "14px", borderRadius: "10px", background: "rgba(139,92,246,0.1)", border: `1px solid ${C.purple}30`, color: C.purpleHi, fontWeight: "700", cursor: "pointer", transition: "0.2s" }}>
+          <div style={{ display: "flex", gap: "12px", marginTop: "12px", width: "90vw", margin: "0 auto" }}>
+            <button onClick={handleExport} style={{ flex: 1, padding: "14px", borderRadius: "10px", background: "rgba(139,92,246,0.1)", border: `1px solid ${C.purple}30`, color: C.purpleHi, fontWeight: "700", cursor: "pointer" }}>
               📥 Export Data (JSON)
             </button>
-            <button onClick={handleClear} disabled={loading} style={{ flex: 1, padding: "14px", borderRadius: "10px", background: "rgba(244,63,94,0.1)", border: `1px solid ${C.red}30`, color: C.red, fontWeight: "700", cursor: loading ? "not-allowed" : "pointer", transition: "0.2s" }}>
+            <button onClick={handleClear} disabled={loading} style={{ flex: 1, padding: "14px", borderRadius: "10px", background: "rgba(244,63,94,0.1)", border: `1px solid ${C.red}30`, color: C.red, fontWeight: "700", cursor: loading ? "not-allowed" : "pointer" }}>
               {loading ? "Clearing..." : "🗑️ Clear All Records"}
             </button>
           </div>
@@ -506,7 +486,7 @@ export function DatabaseManager({ trades, onClearAll }) {
                         <tr key={i} style={{ borderBottom: `1px solid ${C.gray20}` }}>
                           {tableData.columns.map(col => (
                             <td key={col} style={{ padding: "8px 12px", color: C.textSecondary }}>
-                              {editingRow === row ? (
+                             {editingRow?.id === row.id ? (
                                 <input
                                   type="text"
                                   value={editValues[col] || ''}
@@ -529,7 +509,7 @@ export function DatabaseManager({ trades, onClearAll }) {
                             </td>
                           ))}
                           <td style={{ padding: "8px 12px", textAlign: "center" }}>
-                            {editingRow === row ? (
+                            {editingRow?.id === row.id ? (
                               <div style={{ display: "flex", gap: "4px", justifyContent: "center" }}>
                                 <button 
                                   onClick={handleSaveRow}
@@ -663,7 +643,7 @@ export function DatabaseManager({ trades, onClearAll }) {
                           
                           return (
                             <td key={col} style={{ padding: "8px 12px", color: C.textSecondary }}>
-                              {editingAuthUser === user ? (
+                             {editingAuthUser?.id === user.id ? (
                                 <input
                                   type="text"
                                   value={editAuthUserValues[col] || ''}
@@ -687,7 +667,7 @@ export function DatabaseManager({ trades, onClearAll }) {
                           );
                         })}
                         <td style={{ padding: "8px 12px", textAlign: "center" }}>
-                          {editingAuthUser === user ? (
+                          {editingAuthUser?.id === user.id ? (
                             <div style={{ display: "flex", gap: "4px", justifyContent: "center" }}>
                               <button 
                                 onClick={handleSaveAuthUser}
