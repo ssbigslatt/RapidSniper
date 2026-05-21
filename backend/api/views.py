@@ -71,7 +71,6 @@ def signup_view(request):
         # Ensure balance row exists (avoid DB clashes)
         Balance.objects.get_or_create(user=user)
 
-<<<<<<< HEAD
         # Create default trades for new users
         default_assets = [
             # Currencies
@@ -95,9 +94,6 @@ def signup_view(request):
                 subcategory=asset['subcategory'],
                 status='PLANNED'
             )
-
-=======
->>>>>>> b675249 (Initial commit)
         return Response({'message': 'Account created successfully', 'username': user.username, 'id': user.id}, status=status.HTTP_201_CREATED)
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

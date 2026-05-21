@@ -1,12 +1,10 @@
 """
-Django settings for RapidSniper backend.
-Connects to XAMPP MySQL database 'rapidsniper_db'
+
 """
+
 
 import os
 from pathlib import Path
-import pymysql
-pymysql.install_as_MySQLdb()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -63,25 +61,11 @@ import os
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-<<<<<<< HEAD
-        'NAME': 'neondb',
-        'USER': 'neondb_owner',
-        'PASSWORD': 'npg_VnzLF6lgwe9K',
-        'HOST': 'ep-winter-meadow-aqywiwja.c-8.us-east-1.aws.neon.tech',
-        'PORT': '5432',
-        'OPTIONS': {
-            'sslmode': 'require',
-        }
-=======
-        'NAME': os.environ.get('PGDATABASE'),
-        'USER': os.environ.get('PGUSER'),
-        'PASSWORD': os.environ.get('PGPASSWORD'),
-        'HOST': os.environ.get('PGHOST'),
-        'PORT': os.environ.get('PGPORT', '5432'),
->>>>>>> 77317e6fddbd0976b19807449ee5c204e1b292e4
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
