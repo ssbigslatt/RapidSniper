@@ -139,8 +139,14 @@ def login_view(request):
             pass
             
     # If not found by email or no '@', try by username
+  # If not found by email or no '@', try by username
     if not user:
-        user = authenticate(username=username_or_email, password=password)
+        # Case-insensitive username lookup
+        try:
+            actual_user = User.objects.get(username__iexact=username_or_email)
+            user = authenticate(username=actual_user.username, password=password)
+        except User.DoesNotExist:
+            user = authenticate(username=username_or_email, password=password)
     
     if user:
         # Get or create balance for user
