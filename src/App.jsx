@@ -7,6 +7,7 @@ import { MeshBg } from "./components/MeshBg";
 import { Nav } from "./components/Nav";
 import { MiniStatsCard } from "./components/MiniStatsCard";
 import { Login } from "./pages/Login";
+import { Signup } from "./pages/Signup";
 import { Home } from "./pages/Home";
 import { RoadToRapidSniper } from "./pages/RoadToRapidSniper";
 import { ChartMarkup } from "./pages/ChartMarkup";
@@ -171,7 +172,11 @@ export default function App() {
     <div style={appStyle}>
       <MeshBg />
       <div style={{ position: "relative", zIndex: 1 }}>
-        <Login onLogin={setUser} />
+        {page === 'signup' ? (
+          <Signup onLogin={setUser} onSignedUp={setUser} onGoLogin={() => setPage('home')} onGoHome={() => setPage('home')} />
+        ) : (
+          <Login onLogin={setUser} setPage={setPage} />
+        )}
       </div>
     </div>
   );

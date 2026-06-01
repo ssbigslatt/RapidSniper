@@ -3,7 +3,7 @@ import axios from "axios";
 import { C, FD, gc, inputSt } from "../constants";
 import { Btn } from "../components/Btn";
 
-export function Login({ onLogin }) {
+export function Login({ onLogin, setPage }) {
   const [u, setU] = useState("");
   const [p, setP] = useState("");
   const [err, setErr] = useState("");
@@ -155,6 +155,21 @@ export function Login({ onLogin }) {
           >
             {loading ? "Authenticating…" : "Sign In →"}
           </Btn>
+          <div style={{ marginTop: 12, textAlign: 'center' }}>
+            <button
+              onClick={() => setPage && setPage('signup')}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: C.purpleHi,
+                cursor: 'pointer',
+                fontWeight: 600,
+                fontSize: 13
+              }}
+            >
+              Create an account
+            </button>
+          </div>
           <div
             style={{
               marginTop: "18px",
