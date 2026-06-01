@@ -12,7 +12,7 @@ SECRET_KEY = 'django-insecure-change-this-in-production-xyz123'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'ssbigslatt.pythonanywhere.com', 'rapid-sniper5.vercel.app']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
