@@ -46,7 +46,7 @@ class Trade(models.Model):
     # Simple fields for Rapid Sniper Trades
     pair = models.CharField(max_length=100, blank=True)
     category = models.CharField(max_length=50, blank=True)
-    subcategory = models.CharField(max_length=50, blank=True)
+    subcategory = models.CharField(max_length=50, blank=True, null=True, default='')
     
     trade_type = models.CharField(max_length=10, choices=TYPES, default='LONG')
     status = models.CharField(max_length=10, choices=STATUS, default='PLANNED')

@@ -4,7 +4,7 @@ from .views import (
     PlatformViewSet, InstrumentCategoryViewSet, InstrumentViewSet,
     StrategyViewSet, CriterionViewSet, TradeViewSet,
     TradeCriterionViewSet, MarkupViewSet, UserProgressViewSet,
-    BalanceViewSet, TradeNoteViewSet, login_view
+    BalanceViewSet, TradeNoteViewSet, login_view, register_view
 )
 
 router = DefaultRouter()
