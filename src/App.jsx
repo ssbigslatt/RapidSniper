@@ -18,7 +18,7 @@ import { History } from "./pages/History";
 import { DatabaseManager } from "./pages/DatabaseManager";
 import { TradingPlatforms } from "./pages/TradingPlatforms";
 
-const API_BASE = "http://localhost:8000/api/trades/";
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -33,12 +33,12 @@ export default function App() {
   const fetchBalance = async () => {
     if (!user?.id) return;
     try {
-      const res = await axios.get(`http://localhost:8000/api/balances/?user=${user.id}`);
+      const res = await axios.get(`${API_BASE}balances/?user=${user.id}`);
       if (res.data.length > 0) {
         setBalance(res.data[0]);
       } else {
         // Create balance if not exists
-        const createRes = await axios.post(`http://localhost:8000/api/balances/update_balance/`, {
+        const createRes = await axios.post(`${API_BASE}balances/update_balance/`, {
           user: user.id,
           starting_balance: 0
         });

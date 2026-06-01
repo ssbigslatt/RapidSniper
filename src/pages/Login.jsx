@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { C, FD, gc, inputSt } from "../constants";
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api";
 import { Btn } from "../components/Btn";
 
 export function Login({ onLogin, setPage }) {
@@ -18,7 +20,7 @@ export function Login({ onLogin, setPage }) {
     setErr("");
     
     try {
-      const response = await axios.post("http://localhost:8000/api/login/", {
+      const response = await axios.post(`${API_BASE}/login/`, {
         username: u,
         password: p
       });

@@ -61,7 +61,7 @@ export function Signup({ onSignedUp, onGoLogin, onGoHome }) {
 
     setLoading(true);
     try {
-    const res = await axios.post(`http://localhost:8000/api/signup/`, {
+    const res = await axios.post(`${API_BASE}/signup/`, {
         username: u,
         email: email,
         password: p,

@@ -33,7 +33,8 @@ export function Trades({ trades, sessionTrades, onResult, onAdd, onRemove, user,
     if (!user?.id || startingBalance === "") return;
     try {
       setLoadingBalance(true);
-      await axios.post("http://localhost:8000/api/balances/update_balance/", {
+      const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api";
+      await axios.post(`${API_BASE}/balances/update_balance/`, {
         user: user.id,
         starting_balance: parseFloat(startingBalance),
         risk_percent: parseFloat(riskPercent),
