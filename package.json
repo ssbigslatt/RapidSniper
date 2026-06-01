@@ -1,7 +1,7 @@
 {
   "name": "rapidsniper-trae",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
   "dev": "vite",
@@ -21,6 +21,6 @@
     "vite": "^6.0.0"
   },
   "engines": {
-    "node": "24.x"
+    "node": "18.17.0"
   }
 }
