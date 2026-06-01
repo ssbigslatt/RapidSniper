@@ -12,7 +12,12 @@ SECRET_KEY = 'django-insecure-change-this-in-production-xyz123'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'ssbigslatt.pythonanywhere.com', 'rapid-sniper5.vercel.app']
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'ssbigslatt.pythonanywhere.com',
+    'rapid-sniperv5.vercel.app',
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -80,11 +85,14 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# CORS Configuration
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://127.0.0.1:5173',
     'http://localhost:5174',
     'http://127.0.0.1:5174',
+    'https://rapid-sniperv5.vercel.app',
+    'https://ssbigslatt.pythonanywhere.com',
 ]
 CORS_ALLOW_CREDENTIALS = True
 
