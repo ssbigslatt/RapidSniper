@@ -1,3 +1,4 @@
+# ===== PYTHON =====
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -27,8 +28,6 @@ share/python-wheels/
 MANIFEST
 
 # PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
 
@@ -83,25 +82,18 @@ profile_default/
 ipython_config.py
 
 # pyenv
-#   For a library or package, you might want to ignore these files since the Python version is usually managed by the user.
-# .python-version
+.python-version
 
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or even
-#   fail to install them.
+# Pipenv
 # Pipfile.lock
 
 # poetry
-#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
 # poetry.lock
 
 # pdm
-#   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
 # pdm.lock
 
-# PEP 582; used by e.g. github.com/pdm-project/pdm
+# PEP 582
 __pypackages__/
 
 # Celery stuff
@@ -111,7 +103,7 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
-# Environments
+# ===== ENVIRONMENTS =====
 .env
 .venv
 env/
@@ -120,50 +112,59 @@ ENV/
 env.bak/
 venv.bak/
 venv_new/
+.env.local
+.env.*.local
 
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
-
-# pytype static type analyzer
-.pytype/
-
-# Cython debug symbols
-cython_debug/
-
-# PyCharm
-#  JetBrains specific template is located in a separate file.
-#  Search for 'JetBrains' to find it.
-.idea/
-
-# VS Code
-.vscode/
-
-# Node.js
+# ===== NODE.JS / REACT / VITE =====
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+package-lock.json.bak
+yarn.lock.bak
 
-# OS files
+# Vite
+dist/
+.vite/
+
+# ===== IDE =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+.project
+.pydevproject
+.settings/
+*.iml
+
+# ===== OS =====
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+desktop.ini
 
-# Database
+# ===== BUILD & MISC =====
 *.sql
 *.sqlite3
+dist/
+build/
+
+# Optional npm cache
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Misc
+.cache/
+.parcel-cache
+.next
+out
